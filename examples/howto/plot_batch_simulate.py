@@ -193,3 +193,29 @@ plt.grid(True)
 plt.xscale('log')
 plt.tight_layout()
 plt.show()
+
+
+###############################################################################
+# Using Dask backend for distributed computing
+# --------------------------------------------  
+# For large parameter sweeps like CMA-ES that require many cores across
+# multiple machines, Dask can be used as a backend. Dask is recommended
+# for remote clusters where each machine runs a separate NEURON instance.
+#
+# First ensure ``dask[distributed]`` is installed (included in
+# ``pip install "hnn_core[parallel]"``).
+#
+# To use the Dask backend, connect to a remote Dask cluster first::
+#
+#     from dask.distributed import Client
+#     # Replace with your cluster's scheduler address
+#     # e.g. 'mycluster.university.edu:8786' or '192.168.1.100:8786'
+#     client = Client('scheduler-address:8786')
+#     simulation_results = batch_simulation.run(param_grid,
+#                                               n_jobs=n_jobs,
+#                                               combinations=False,
+#                                               backend='dask')
+#     client.close()
+#
+# Note: ``LocalCluster`` does not work reliably with NEURON due to conflicts
+# when multiple workers initialize NEURON simultaneously.
